@@ -1,15 +1,16 @@
 import random
+# pip name for package is pillow
 from PIL import Image
 
 PURPLE = (185, 100, 200)
 GREEN = (200, 220, 170)
-UNVISITED = 0; PATH = 1
+UNVISITED = 0;
+PATH = 1
 
-imageSizeX = 410; imageSizeY = 410
-mazeResX = 41; mazeResY = 41
-
-image = Image.new("RGB", (imageSizeX, imageSizeY))
-pixels = image.load()
+imageSizeX = 410;
+imageSizeY = 410
+mazeResX = 41;
+mazeResY = 41
 
 startCell = int(mazeResX/2) * (int(mazeResY/2))
 stack = [startCell]
@@ -60,14 +61,18 @@ def VisitCell(cellID):
     if len(stack) > 2:
         VisitCell(stack[-1])
 
-VisitCell(startCell)
-xres = int(imageSizeX/mazeResX); yres = int(imageSizeY/mazeResY)
-for i in range(mazeResY):
-    for j in range(mazeResX):
-        yR = yres #if (i % 2 != 0 and j % 2 != 0) else 2
-        xR = xres #if (i % 2 != 0 and j % 2 != 0) else 2
-        for y in range(yR):
-            for x in range(xR):
-                colour = GREEN if (maze[i * mazeResX + j] == PATH) else PURPLE
-                pixels[x + j * xR, y + i * yR] = colour
-image.save("JennyMaze_" + str(mazeResX) + "x" + str(mazeResY) + ".png", "PNG")
+def DrawImage():
+    VisitCell(startCell)    
+    image = Image.new("RGB", (imageSizeX, imageSizeY))
+    pixels = image.load()
+    xRes = int(imageSizeX/mazeResX)
+    yRes = int(imageSizeY/mazeResY)
+    for i in range(mazeResY):
+        for j in range(mazeResX):
+            for y in range(yRes):                
+                for x in range(xRes):
+                    colour = GREEN if (maze[i * mazeResX + j] == PATH) else PURPLE
+                    pixels[x + j * xRes, y + i * yRes] = colour
+    image.save("JennyMaze_" + str(mazeResX) + "x" + str(mazeResY) + ".png", "PNG")
+
+DrawImage()
